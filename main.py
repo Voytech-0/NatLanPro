@@ -3,7 +3,7 @@ Main file for the SVM_custom project
 Authors: Wojciech Trejter, Viki Simion, Laura M Quirós
 """
 import pandas as pd
-from SVM.SVMCustom import SVM_custom
+from SVM.SVMCustom import SVMCustom
 
 
 def hyperparameter_tuning(X_train, y_train, X_test, y_test):
@@ -11,7 +11,8 @@ def hyperparameter_tuning(X_train, y_train, X_test, y_test):
     best_model = None
     for kernel in ["linear", "poly", "rbf", "sigmoid"]:
         for C in [0.1, 0.5, 1, 5, 10, 50, 100, 500, 1000]:
-            svm = SVM_custom(kernel=kernel, C=C)
+            svm = SVMCustom()
+            svm.initialise_classifier(kernel, C)
             print(f"Kernel: {kernel}, C: {C}")
             score = svm.fit(X_train, y_train).score(X_test, y_test)
             print(f"Score: {score}")
