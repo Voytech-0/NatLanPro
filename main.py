@@ -11,8 +11,7 @@ def hyperparameter_tuning(X_train, y_train, X_test, y_test):
     best_model = None
     for kernel in ["linear", "poly", "rbf", "sigmoid"]:
         for C in [0.1, 0.5, 1, 5, 10, 50, 100, 500, 1000]:
-            svm = SVMCustom()
-            svm.initialise_classifier(kernel, C)
+            svm = SVMCustom(kernel, C)
             print(f"Kernel: {kernel}, C: {C}")
             score = svm.fit(X_train, y_train).score(X_test, y_test)
             print(f"Score: {score}")
@@ -20,7 +19,7 @@ def hyperparameter_tuning(X_train, y_train, X_test, y_test):
                 best_score = score
                 best_model = svm
     print(f"Best score: {best_score}")
-    best_model.plot_decision_boundary(X_test, y_test, "Best model decision boundary")
+    best_model.plot(X_test, y_test, "Best model decision boundary")
 
 
 def main():

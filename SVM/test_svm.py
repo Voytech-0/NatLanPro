@@ -23,9 +23,8 @@ class MyTestCase(unittest.TestCase):
         if model == "sklearn":
             svm = SVM.SVC(kernel='linear', C=1.0, random_state=0).fit(X, y)
         else:
-            obj = SVMCustom()
-            obj.initialise_classifier(kernel='linear', C=1.0, random_state=0)
-            svm = obj.fit(X, y)
+            svm = SVMCustom(kernel='linear', C=1.0)
+            svm = svm.fit(X, y)
 
         # get accurracy, precision, recall and f1 score from testing
         print(svm.score(X, y))
@@ -45,8 +44,7 @@ class MyTestCase(unittest.TestCase):
         for kernel in ['linear', 'poly', 'rbf', 'sigmoid']:
             for C in [0.1, 1.0, 10.0]:
                 print(f"Kernel: {kernel}, C: {C}")
-                svm = SVMCustom()
-                svm.initialise_classifier(kernel, C)
+                svm = SVMCustom(kernel, C)
                 svm.fit(X, y)
                 print(svm.score(X, y))
                 if svm.score(X, y) > best_score:
@@ -54,7 +52,7 @@ class MyTestCase(unittest.TestCase):
                     best_model = svm
         # plot decision boundary
         print(f"Best Model Score: {best_score} with params {best_model.get_params()}")
-        best_model.plot_decision_boundary(X, y, "Best Model Decision Boundary")
+        best_model.plot(X, y, "Best Model Decision Boundary")
 
 
 
