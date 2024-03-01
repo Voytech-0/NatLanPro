@@ -5,3 +5,5 @@ torch~=2.2.1
 numpy~=1.26.4
 pandas~=2.2.1
 nltk~=3.8.1
+gensim~=4.3.2
+asttokens~=2.4.1
