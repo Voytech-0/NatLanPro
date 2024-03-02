@@ -3,22 +3,23 @@ Main file for the SVM_custom project
 Authors: Wojciech Trejter, Viki Simion, Laura M Quirós
 """
 import pandas as pd
+from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 from SVM.SVMCustom import SVMCustom
 
 
 def hyperparameter_tuning(X_train, y_train, X_test, y_test):
-    best_score = 0
-    best_model = None
-    for kernel in ["linear", "poly", "rbf", "sigmoid"]:
-        for C in [0.1, 0.5, 1, 5, 10, 50, 100, 500, 1000]:
-            svm = SVMCustom(kernel, C)
-            print(f"Kernel: {kernel}, C: {C}")
-            score = svm.fit(X_train, y_train).score(X_test, y_test)
-            print(f"Score: {score}")
-            if score > best_score:
-                best_score = score
-                best_model = svm
-    print(f"Best score: {best_score}")
+    params = {
+        "kernel": ["linear", "poly", "rbf", "sigmoid"],
+        "C": [0.1, 0.5, 1, 5, 10, 50, 100, 500, 1000]
+    }
+    svm = SVMCustom()
+    grid_search = GridSearchCV(svm, params, scoring="accuracy")
+    grid_search.fit(X_train, y_train)
+    print(f"Best parameters: {grid_search.best_params_}")
+    best_model = grid_search.best_estimator_
+    results = classification_report(y_test, best_model.predict(X_test))
+    print(results)
     best_model.plot(X_test, y_test, "Best model decision boundary")
 
 
