@@ -3,3 +3,4 @@ venv
 env
 pyenv
 .venv
+.DS_Store
