@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 
-def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 400) -> pd.DataFrame:
+def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 80) -> pd.DataFrame:
     """
     Eliminate long sentences from a dataframe that contains two columns: 'en' and 'es'.
     If any of the sentences in the 'en' or 'es' columns has more than max_length words,
@@ -10,12 +11,8 @@ def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 400) -> pd.Da
     :param data: a dataframe with two columns: 'en' and 'es'
     :param max_length: the maximum length of a sentence
     """
-    for index, row in data.iterrows():
-        for column in data.columns:
-            if len(str(row[column]).split(' ')) > max_length:
-                data.drop(index, inplace=True)
-                break
-    return data
+    mask = (data['en_translation'].str.split().str.len() <= max_length) & (data['es_translation'].str.split().str.len() <= max_length)
+    return data.loc[mask]
 
 
 if __name__ == "__main__":
@@ -33,3 +30,4 @@ if __name__ == "__main__":
 
     # save the dataframe to a csv file
     df.to_csv("../data/cropped_en_es_translation.csv", index=False)
+    print("Good bye from feat_engineering.py")
