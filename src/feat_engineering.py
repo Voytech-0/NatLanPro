@@ -10,12 +10,8 @@ def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 400) -> pd.Da
     :param data: a dataframe with two columns: 'en' and 'es'
     :param max_length: the maximum length of a sentence
     """
-    for index, row in data.iterrows():
-        for column in data.columns:
-            if len(str(row[column]).split(' ')) > max_length:
-                data.drop(index, inplace=True)
-                break
-    return data
+    mask = (data['en_translation'].str.split().str.len() <= max_length) & (data['es_translation'].str.split().str.len() <= max_length)
+    return data.loc[mask]
 
 
 if __name__ == "__main__":
