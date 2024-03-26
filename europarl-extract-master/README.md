@@ -15,7 +15,6 @@ The following step-by-step instructions will guide you through the corpus extrac
 The original Europarl source files need to be cleaned and normalised before applying the corpus extraction scripts. 
 
 # VERY IMPORTANT
-You need to download `europarl_statements.csv` from the corpora folder of the original repository and add it to the corpora folder of this repository.
 We add our txt files `europarl-v7.es-en-en.txt` and `europarl-v7.es-en-es.txt` to the corpora folder.
 We execute all commands from the `europarl-extract-master` directory
 
