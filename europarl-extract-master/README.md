@@ -16,7 +16,6 @@ The original Europarl source files need to be cleaned and normalised before appl
 
 # VERY IMPORTANT
 You need to download `europarl_statements.csv` from the corpora folder of the original repository and add it to the corpora folder of this repository.
-You need to download the entire `preprocessing` folder from the original repository and add it to the root of this repository.
 We add our txt files `europarl-v7.es-en-en.txt` and `europarl-v7.es-en-es.txt` to the corpora folder.
 We execute all commands from the `europarl-extract-master` directory
 
