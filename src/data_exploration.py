@@ -22,35 +22,28 @@ def og_info(lines: pd.DataFrame, filename: str):
     # sort the dictionary by value
     look_out = dict(sorted(look_out.items(), key=lambda item: item[1], reverse=True))
     # save the dictionary to a file
-    with open(f"../data/{filename}_look_out.txt", "w") as file:
+    with open(f"../europarl-extract-master/corpora/{filename}_look_out.txt", "w") as file:
         file.write(str(look_out))
-    # from the dictionary we learnt most words are alnum+punctuation
-    # with the exception of - and longer hyphen
-    # and '\xa0\xa0': 30828 instances in each file
 
     # print empty line indexes
     unique_empty_lines_idx = list(set(empty_lines_idx))
     print(f"Empty lines found at indexes: {unique_empty_lines_idx}")
-    # idx 104 in en_translation and idx 438 in es_translation
 
     # plot a barplot of the number of words, NaN words and non-alphanumeric words
     # in percentages
-    plt.bar(["Words", "Non-alphanumeric"],
+    plt.bar(["Alphanumeric words", "Non-alphanumeric words"],
             [(words - len(look_out))/words, len(look_out)/words])
-    plt.title(f"Information about {filename}")
-    plt.ylabel("Frequency")
+    plt.title(f"Percentage of non-alphanumeric words in {filename}")
+    plt.ylabel("Amount of words")
     # add percentages to the bars
     for i, v in enumerate([(words - NaN_words - len(look_out))/words, len(look_out)/words]):
         plt.text(i, v, f"{round(v*100, 2)}%")
     plt.show()
 
 
-def plot_sentence_length():
-    # make a boxplot of the lengths of the sentences
-    with open("../data/europarl-v7.es-en-en.txt") as file:
-        en_df = file.read().split('\n')
-    with open("../data/europarl-v7.es-en-es.txt") as file:
-        es_df = file.read().split('\n')
+def plot_sentence_length(df:pd.DataFrame):
+    en_df = df["en"]
+    es_df = df["es"]
     # Count the number of words in each sentence
     en_lengths = [len(sentence.split(' ')) for sentence in en_df]
     es_lengths = [len(sentence.split(' ')) for sentence in es_df]
@@ -70,14 +63,11 @@ def plot_sentence_length():
 
 
 if __name__ == "__main__":
-    print("Hello from data_exploration.py")
-    with open("../data/europarl-v7.es-en-en.txt") as file:
-        en_df = file.read().split('\n')
-    en_df = pd.DataFrame(en_df, columns=["en_translation"])
-    with open("../data/europarl-v7.es-en-es.txt") as file:
-        es_df = file.read().split('\n')
-    es_df = pd.DataFrame(es_df, columns=["es_translation"])
-    og_info(en_df, "en_translation")
-    og_info(es_df, "es_translation")
-    # plot_sentence_length()
+    # read the data
+    df = pd.read_csv("../europarl-extract-master/corpora/europarl.csv")
+    print(df.head())
+    og_info(df["en"], "en_translation")
+    og_info(df["es"], "es_translation")
+    # plot the sentence length
+    plot_sentence_length(df)
     print("done")
