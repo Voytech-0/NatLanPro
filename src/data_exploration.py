@@ -45,12 +45,9 @@ def og_info(lines: pd.DataFrame, filename: str):
     plt.show()
 
 
-def plot_sentence_length():
-    # make a boxplot of the lengths of the sentences
-    with open("../data/europarl-v7.es-en-en.txt") as file:
-        en_df = file.read().split('\n')
-    with open("../data/europarl-v7.es-en-es.txt") as file:
-        es_df = file.read().split('\n')
+def plot_sentence_length(df:pd.DataFrame):
+    en_df = df["en"]
+    es_df = df["es"]
     # Count the number of words in each sentence
     en_lengths = [len(sentence.split(' ')) for sentence in en_df]
     es_lengths = [len(sentence.split(' ')) for sentence in es_df]
@@ -70,14 +67,11 @@ def plot_sentence_length():
 
 
 if __name__ == "__main__":
-    print("Hello from data_exploration.py")
-    with open("../data/europarl-v7.es-en-en.txt") as file:
-        en_df = file.read().split('\n')
-    en_df = pd.DataFrame(en_df, columns=["en_translation"])
-    with open("../data/europarl-v7.es-en-es.txt") as file:
-        es_df = file.read().split('\n')
-    es_df = pd.DataFrame(es_df, columns=["es_translation"])
-    og_info(en_df, "en_translation")
-    og_info(es_df, "es_translation")
-    # plot_sentence_length()
+    # read the data
+    df = pd.read_csv("../europarl-extract-master/corpora/europarl.csv")
+    print(df.head())
+    og_info(df["en"], "en_translation")
+    og_info(df["es"], "es_translation")
+    # plot the sentence length
+    plot_sentence_length(df)
     print("done")
