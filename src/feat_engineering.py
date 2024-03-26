@@ -28,4 +28,4 @@ if __name__ == "__main__":
     plt.show()
 
     # save the dataframe to a csv file
-    df.to_csv("../europarl-extract-master/corpora/cropped_en_es_translation.csv", index=False)
+    df.to_csv("../europarl-extract-master/corpora/cropped_europarl.csv", index=False)
