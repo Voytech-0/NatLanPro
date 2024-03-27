@@ -10,17 +10,17 @@ def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 400) -> pd.Da
     :param data: a dataframe with two columns: 'en' and 'es'
     :param max_length: the maximum length of a sentence
     """
-    mask = (data['en_translation'].str.split().str.len() <= max_length) & (data['es_translation'].str.split().str.len() <= max_length)
+    mask = (data['en'].str.split().str.len() <= max_length) & (data['es'].str.split().str.len() <= max_length)
     return data.loc[mask]
 
 
 if __name__ == "__main__":
     print("Hello from feat_engineering.py")
-    old_df = pd.read_csv("../data/en_es_translation.csv")
+    old_df = pd.read_csv("../europarl-extract-master/corpora/preprocessed_europarl.csv")
     df = eliminate_long_sentences(old_df)
     # make a boxplot of the lengths of the sentences
-    en_lengths = [len(str(sentence).split(' ')) for sentence in df["en_translation"]]
-    es_lengths = [len(str(sentence).split(' ')) for sentence in df["es_translation"]]
+    en_lengths = [len(str(sentence).split(' ')) for sentence in df["en"]]
+    es_lengths = [len(str(sentence).split(' ')) for sentence in df["es"]]
     plt.boxplot([en_lengths, es_lengths])
     plt.title("Length of the sentences after removing long sentences")
     plt.xticks([1, 2], ["English", "Spanish"])
@@ -28,4 +28,4 @@ if __name__ == "__main__":
     plt.show()
 
     # save the dataframe to a csv file
-    df.to_csv("../data/cropped_en_es_translation.csv", index=False)
+    df.to_csv("../europarl-extract-master/corpora/cropped_europarl.csv", index=False)
