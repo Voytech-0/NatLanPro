@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 
-def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 400) -> pd.DataFrame:
+def eliminate_long_sentences(data: pd.DataFrame, max_length: int = 80) -> pd.DataFrame:
     """
     Eliminate long sentences from a dataframe that contains two columns: 'en' and 'es'.
     If any of the sentences in the 'en' or 'es' columns has more than max_length words,
