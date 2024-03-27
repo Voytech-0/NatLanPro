@@ -23,3 +23,16 @@ Files in order of use:
    print statements from `data_exploration.py`)
    - makes `after_boxplot_len_sentences.png` a new boxplot of the length of sentences in the data 
    - makes `cropped_en_es_translation.csv` a csv file without the outliers
+
+## Seq2seq model
+The seq2seq model is implemented in `seq2seq.py`.
+The input to the model is generated during the processing steps outlined above.
+
+`Lang` is a class that is used to create tokens for a language. 
+The most important variables are `word2index` and `index2word`, which are dictionaries that map words to indices and vice versa. 
+The class also has a `word2count` dictionary that keeps track of the frequency of each word in the data.
+
+There are a few helper classes for conversions of words to tensors and indexes. These are: `indexesFromSentence`, `tensorFromSentence`, and `tensorsFromPair`. 
+Their names are self-explanatory. 
+
+`DataLoader` is a PyTorch class which nicely handles memory management for large datasets. By using the `DataLoader`, we hope not to exceed the GPU and CPU memory limits.
