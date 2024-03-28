@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --time=02:00:00
+#SBATCH --time=10:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus-per-task=v100:1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --mem=124G
 #SBATCH --job-name=nlp_runtest_job
 
 # Load the module for Python 3.10.4 and PyTorch 1.12.1
@@ -17,6 +17,9 @@ module load IPython/8.5.0-GCCcore-11.3.0
 
 # Activate the virtual environment
 source $HOME/nlp/bin/activate
+
+# Load the data
+cd $HOME/nlp
 
 # Run the commands for preprocessing
 cd europarl-extract-master

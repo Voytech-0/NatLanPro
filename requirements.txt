@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b1cd9a7b94be91caacb4d04bc36ec02bf34117134dbb965238e3d9757c3cd80f
-size 139
+torch~=2.2.1
+numpy~=1.26.4
+pandas~=2.2.1
+nltk~=3.8.1
+gensim~=4.3.2
+asttokens~=2.4.1
+unidecode~=1.2.0
