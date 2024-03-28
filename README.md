@@ -1,28 +1,38 @@
 # NLP Final Assignment 
 
+## Data preprocessing
 Files in order of use: 
-1. `data_exploration.py` looks through both txt files and makes: 
+1. We use the europarl extractor (more information in `europarl-extract-master/README.md`) to do:
+   - `cleanSourceFiles.sh` to remove XML markup and empty lines
+   - `disambiguate_speaker_IDs.py` to disambiguate statement IDs
+   - `segment_EuroParl.sh` to segment the sentences
+   - `segment-tokenise_EuroParl.sh` to segment and tokenise the sentences
+   - `segment-tokenise_ixaPipes.sh` to segment and tokenise the sentences with ixa-pipe-tok
+   - `extract_corpora.sh` to extract the corpora 
+   - results in the `corpora/europarl.csv` file
+
+2. `data_exploration.py` looks through the resulting data: 
     - `{filename}_look_out.txt` a dictionary with all non-alphanumeric words, ordered by frequency 
     - `{language}_percentage_alnum` a barplot showing the percentage of the data that is non-alphanumeric
     - `boxplot_len_sentences` a boxplot of the length of sentences in the data
     - prints the indexes of empty sentences in the data
     - prints the indexes of the 10 longest sentences of each language
 
-2. `data_preprocessing.py` we do the following: 
+3. `preprocessing.py` we do the following: 
     - remove non-alphanumeric characters from the beginning and end of sentences. Because there are so few honorific 
    titles and these don't consistently use a dot at the end (visible in look_out dictionary),
    we do not explicitly keep these.
-    - get rid of words '\xa0\xa0', which appear 30828 times in each file
-    - remove empty sentences
+    - cluster half-empty rows (rows with only one and same language present), happens to around 10 000 rows
+    - look at the previous and next row to see which one is missing more words. Half-empty rows merge with that one. 
+   This only happens 18 times across the data and they have been checked manually by a native speaker.
     - plot `empty_lines.png` which shows the amount of empty lines removed from each file
-    - make `en_es_translation.csv` a csv file with the English and Spanish sentences in the same row, 
-   with two columns "en_translation" and "es_translation"
+    - make `preprocessed_europarl.csv` a csv file with the English and Spanish sentences in the same row, with two columns "en" and "es"
 
-3. `feat_processing.py` is a feature processing file:
-   - eliminates the rows in which either of the sentences has more than 400 words (based on `boxplot_len_sentences` and
-   print statements from `data_exploration.py`)
+4. `feat_processing.py` is a feature processing file:
+   - eliminates the rows in which either of the sentences has more than 50 words (based on `boxplot_len_sentences` and
+   print statements from `exploration.py`)
    - makes `after_boxplot_len_sentences.png` a new boxplot of the length of sentences in the data 
-   - makes `cropped_en_es_translation.csv` a csv file without the outliers
+   - makes `cropped_europarl.csv` a csv file without the outliers
 
 ## Seq2seq model
 The seq2seq model is implemented in `seq2seq.py`.
